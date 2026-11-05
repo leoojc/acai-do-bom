@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Açaí do Bom - Cardápio Digital</title>
+    
+    <!-- 🚀 Tailwind CSS (Garante design profissional e responsivo em qualquer tela) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 🎨 Ícones FontAwesome e Fonte Moderna (Poppins) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================================
+         * 🎨 #anotações - ESTILOS GERAIS E CORES DA SUA LOGO
+         * O tom #3b123c é exatamente a cor de fundo da imagem anexada!
+         * ========================================================== */
+        :root {
+            --roxo-logo: #3b123c;
+            --roxo-escuro: #1f0820;
+            --roxo-card: #2d0d2e;
+            --amarelo-ouro: #FFC107;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--roxo-escuro);
+            color: #ffffff;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Esconde barra de rolagem nas abas de categoria do celular */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Animação suave para abrir os modais */
+        @keyframes slideUp {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .animate-slide-up { animation: slideUp 0.25s ease-out forwards; }
+
+        /* Estilo customizado para botões de marcar (Radio e Checkbox) */
+        input[type="radio"], input[type="checkbox"] {
+            accent-color: var(--amarelo-ouro);
+            width: 1.35rem;
+            height: 1.35rem;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="pb-28 selection:bg-yellow-400 selection:text-purple-950">
+
+    <!-- ==========================================================
+         🖼️ CAPA E LOGO (INTEGRADA COM A IMAGEM ANEXADA)
+         ========================================================== -->
+    <header class="relative bg-[#3b123c] border-b-4 border-yellow-400 shadow-2xl overflow-hidden">
+        
+        <!-- Imagem de Capa (Usa a sua arte completa em destaque) -->
+        <div class="w-full max-w-4xl mx-auto relative h-52 sm:h-72 md:h-80 flex items-center justify-center bg-[#3b123c]">
+            <!-- #anotações: O código puxa o nome original da imagem anexada. Se você renomear para logo.jpg, ele também reconhece! -->
+            <img src="Gemini_Generated_Image_3zuaej3zuaej3zua.jpg" 
+                 onerror="this.onerror=null; this.src='logo.jpg';" 
+                 alt="Capa Açaí do Bom" 
+                 class="w-full h-full object-contain sm:object-cover">
+            
+            <!-- Degradê suave na base para leitura perfeita -->
+            <div class="absolute inset-0 bg-gradient-to-t from-[#1f0820] via-transparent to-transparent opacity-90"></div>
+        </div>
+
+        <!-- Barra de Informações da Loja -->
+        <div class="max-w-4xl mx-auto px-4 pb-5 pt-2 relative z-10 flex flex-col sm:flex-row items-center sm:items-end justify-between gap-4 -mt-12 sm:-mt-16">
+            <div class="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+                <!-- Avatar Redondo com a Logo -->
+                <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full border-4 border-yellow-400 bg-[#3b123c] shadow-xl overflow-hidden flex-shrink-0 flex items-center justify-center">
+                    <img src="Gemini_Generated_Image_3zuaej3zuaej3zua.jpg" 
+                         onerror="this.onerror=null; this.src='logo.jpg';" 
+                         alt="Logo Açaí do Bom" 
+                         class="w-full h-full object-cover scale-150">
+                </div>
+                <div>
+                    <h1 class="text-2xl sm:text-3xl font-extrabold text-yellow-400 drop-shadow-md tracking-tight">Açaí do Bom</h1>
+                    <p class="text-purple-200 text-xs sm:text-sm mt-0.5"><i class="fas fa-location-dot text-yellow-400 mr-1"></i> Olinda & Recife • O mais cremoso da região!</p>
+                    <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2 mt-2">
+                        <span class="bg-green-500/20 border border-green-500 text-green-400 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full bg-green-400 animate-ping"></span> ABERTO AGORA
+                        </span>
+                        <span class="bg-purple-900/60 border border-purple-700 text-purple-200 text-xs px-3 py-1 rounded-full">
+                            <i class="fas fa-clock text-yellow-400 mr-1"></i> 30-45 min
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botão Rápido do Instagram -->
+            <a href="https://instagram.com/acaidobom" target="_blank" class="bg-purple-800/80 hover:bg-purple-700 border border-purple-500 text-white text-xs sm:text-sm font-semibold px-4 py-2 rounded-full transition flex items-center gap-2 shadow-lg">
+                <i class="fab fa-instagram text-yellow-400 text-base"></i> @acaidobom
+            </a>
+        </div>
+    </header>
+
+    <!-- ==========================================================
+         🧭 BARRA DE CATEGORIAS FIXA NO TOPO (ESTILO IFOOD/HUBT)
+         ========================================================== -->
+    <nav class="sticky top-0 z-30 bg-[#2d0d2e]/95 backdrop-blur-md border-b border-purple-800/80 shadow-md">
+        <div class="max-w-4xl mx-auto px-4 flex gap-2 overflow-x-auto no-scrollbar py-3" id="menu-categorias">
+            <!-- Gerado automaticamente pelo JavaScript -->
+        </div>
+    </nav>
+
+    <!-- ==========================================================
+         🍨 LISTA DE PRODUTOS (RESPONSIVO: 1 COLUNA NO CELULAR, 2 NO PC)
+         ========================================================== -->
+    <main class="max-w-4xl mx-auto px-4 py-6 space-y-8" id="catalogo-produtos">
+        <!-- Os produtos aparecem aqui automaticamente via JavaScript -->
+    </main>
+
+    <!-- ==========================================================
+         🛒 BARRA FLUTUANTE INFERIOR DO CARRINHO
+         ========================================================== -->
+    <div id="barra-carrinho" class="fixed bottom-0 left-0 right-0 z-40 p-3 sm:p-4 bg-gradient-to-t from-[#1f0820] via-[#1f0820]/95 to-transparent pointer-events-none">
+        <div class="max-w-4xl mx-auto pointer-events-auto">
+            <button onclick="abrirModalCarrinho()" class="w-full bg-yellow-400 hover:bg-yellow-300 active:scale-[0.99] text-purple-950 font-extrabold py-3.5 px-6 rounded-2xl shadow-2xl flex items-center justify-between transition-all border-2 border-yellow-300">
+                <div class="flex items-center gap-3">
+                    <div class="bg-purple-950 text-yellow-400 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold" id="qtd-carrinho">0</div>
+                    <span class="text-sm sm:text-base">Ver meu pedido</span>
+                </div>
+                <span class="text-base sm:text-lg" id="total-barra-carrinho">R$ 0,00</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- ==========================================================
+         🪟 MODAL 1: MONTAR O AÇAÍ PASSO A PASSO
+         ========================================================== -->
+    <div id="modal-montar" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex-col justify-end sm:justify-center items-center p-0 sm:p-4">
+        <div class="bg-[#260b27] w-full max-w-2xl h-[90vh] sm:h-auto sm:max-h-[88vh] rounded-t-3xl sm:rounded-3xl border border-purple-700/60 shadow-2xl flex flex-col overflow-hidden animate-slide-up">
+            
+            <!-- Topo do Modal -->
+            <div class="bg-[#3b123c] px-5 py-4 flex items-center justify-between border-b border-purple-800">
+                <div>
+                    <h3 class="text-lg font-extrabold text-yellow-400" id="modal-titulo-produto">Montar Açaí</h3>
+                    <p class="text-xs text-purple-200" id="modal-desc-produto">Personalize do seu jeito</p>
+                </div>
+                <button onclick="fecharModalMontar()" class="w-9 h-9 rounded-full bg-purple-900/80 text-white hover:bg-purple-800 flex items-center justify-center">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <!-- Corpo Rolável com as Opções -->
+            <div class="p-4 sm:p-6 overflow-y-auto space-y-6 flex-1" id="corpo-modal-montar">
+                <!-- Preenchido via JS -->
+            </div>
+
+            <!-- Rodapé do Modal (Botão Confirmar) -->
+            <div class="p-4 bg-[#1f0820] border-t border-purple-800/80 flex items-center justify-between gap-4">
+                <!-- Controle de Quantidade -->
+                <div class="flex items-center bg-[#3b123c] rounded-xl border border-purple-600 p-1">
+                    <button onclick="alterarQtdModal(-1)" class="w-9 h-9 text-yellow-400 font-bold text-lg hover:bg-purple-800 rounded-lg">-</button>
+                    <span id="qtd-item-modal" class="w-8 text-center font-bold text-sm">1</span>
+                    <button onclick="alterarQtdModal(1)" class="w-9 h-9 text-yellow-400 font-bold text-lg hover:bg-purple-800 rounded-lg">+</button>
+                </div>
+
+                <button onclick="confirmarItemPersonalizado()" class="flex-1 bg-yellow-400 hover:bg-yellow-300 text-purple-950 font-extrabold py-3.5 px-5 rounded-xl shadow-lg flex justify-between items-center transition">
+                    <span>Adicionar</span>
+                    <span id="preco-modal-atual">R$ 0,00</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================================
+         🛍️ MODAL 2: CARRINHO E FINALIZAÇÃO (CHECKOUT WHATSAPP)
+         ========================================================== -->
+    <div id="modal-carrinho" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex-col justify-end sm:justify-center items-center p-0 sm:p-4">
+        <div class="bg-[#260b27] w-full max-w-xl h-[92vh] sm:h-auto sm:max-h-[90vh] rounded-t-3xl sm:rounded-3xl border border-purple-700/60 shadow-2xl flex flex-col overflow-hidden animate-slide-up">
+            
+            <!-- Topo Carrinho -->
+            <div class="bg-[#3b123c] px-5 py-4 flex items-center justify-between border-b border-purple-800">
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-shopping-bag text-yellow-400 text-lg"></i>
+                    <h3 class="text-lg font-extrabold text-white">Seu Pedido</h3>
+                </div>
+                <button onclick="fecharModalCarrinho()" class="w-9 h-9 rounded-full bg-purple-900/80 text-white hover:bg-purple-800 flex items-center justify-center">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <!-- Lista de Itens + Dados de Entrega -->
+            <div class="p-4 sm:p-6 overflow-y-auto space-y-5 flex-1">
+                
+                <!-- Itens Adicionados -->
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-purple-300 mb-3">Itens Escolhidos</h4>
+                    <div id="lista-itens-carrinho" class="space-y-3"></div>
+                </div>
+
+                <!-- Formulário de Entrega -->
+                <div class="bg-[#3b123c]/60 p-4 rounded-2xl border border-purple-800 space-y-3">
+                    <h4 class="text-sm font-bold text-yellow-400 mb-2"><i class="fas fa-user-check mr-1"></i> Dados para Finalizar</h4>
+                    
+                    <div>
+                        <label class="text-xs text-purple-200 block mb-1">Seu Nome *</label>
+                        <input type="text" id="cliente-nome" placeholder="Ex: João Silva" class="w-full bg-[#1f0820] border border-purple-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-yellow-400">
+                    </div>
+
+                    <div>
+                        <label class="text-xs text-purple-200 block mb-1">Como deseja receber? *</label>
+                        <select id="cliente-tipo-entrega" onchange="alternarCampoEndereco()" class="w-full bg-[#1f0820] border border-purple-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-yellow-400">
+                            <option value="Entrega (Delivery)">🛵 Entrega (Delivery)</option>
+                            <option value="Retirada na Loja">🏪 Vou retirar na loja</option>
+                        </select>
+                    </div>
+
+                    <div id="bloco-endereco">
+                        <label class="text-xs text-purple-200 block mb-1">Endereço Completo (Rua, Número, Bairro e Referência) *</label>
+                        <textarea id="cliente-endereco" rows="2" placeholder="Ex: Rua do Sol, 123, Bairro Novo - Próximo à padaria" class="w-full bg-[#1f0820] border border-purple-700 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-yellow-400"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="text-xs text-purple-200 block mb-1">Forma de Pagamento *</label>
+                        <select id="cliente-pagamento" class="w-full bg-[#1f0820] border border-purple-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-yellow-400">
+                            <option value="PIX">💠 PIX</option>
+                            <option value="Cartão de Crédito/Débito">💳 Cartão (Maquininha na entrega)</option>
+                            <option value="Dinheiro">💵 Dinheiro</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rodapé do Carrinho -->
+            <div class="p-4 bg-[#1f0820] border-t border-purple-800 space-y-3">
+                <div class="flex justify-between items-center text-lg font-extrabold">
+                    <span class="text-purple-200">Total do Pedido:</span>
+                    <span class="text-yellow-400 text-xl" id="total-modal-carrinho">R$ 0,00</span>
+                </div>
+                <button onclick="enviarPedidoWhatsApp()" class="w-full bg-green-500 hover:bg-green-400 text-slate-950 font-extrabold py-3.5 px-6 rounded-xl shadow-lg flex items-center justify-center gap-2 text-base transition">
+                    <i class="fab fa-whatsapp text-xl"></i> Enviar Pedido no WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ==========================================================
+         ⚙️ #anotações - ÁREA DE CONFIGURAÇÃO E BANCO DE DADOS (JS)
+         AQUI VOCÊ EDITA TELEFONE, PREÇOS, PRODUTOS E ACOMPANHAMENTOS!
+         ========================================================== -->
+    <script>
+        // 📞 1. NÚMERO DO WHATSAPP DA LOJA (Apenas números, com 55 + DDD)
+        const WHATSAPP_LOJA = "5581999999999";
+
+        // 🍓 2. OPÇÕES DE CALDAS, FRUTAS, COMPLEMENTOS E EXTRAS (Para montar o Açaí)
+        const OPCOES_PERSONALIZACAO = {
+            limiteGratis: 4, // #anotações: Quantos itens grátis o cliente pode escolher
+            
+            frutasGratis: [
+                "Banana Fatiada",
+                "Morango Fresco",
+                "Uva Sem Semente",
+                "Manga em Cubos"
+            ],
+            
+            complementosGratis: [
+                "Leite em Pó",
+                "Granola Tradicional",
+                "Paçoca Triturada",
+                "Amendoim Granulado",
+                "Flocos de Arroz",
+                "Aveia em Flocos",
+                "Gotas de Chocolate"
+            ],
+
+            caldasGratis: [
+                "Leite Condensado",
+                "Calda de Morango",
+                "Calda de Chocolate",
+                "Mel"
+            ],
+
+            // #anotações: Adicionais pagos (Sem limite de escolha)
+            adicionaisPagos: [
+                { nome: "Nutella Original", preco: 5.00 },
+                { nome: "Creme de Leite Ninho", preco: 4.00 },
+                { nome: "Creme de Ovomaltine", preco: 4.50 },
+                { nome: "Confete M&M's", preco: 3.50 },
+                { nome: "Bis Picado (3 unid)", preco: 3.00 },
+                { nome: "Bombom Ouro Branco", preco: 3.00 },
+                { nome: "Kiwi Fatiado", preco: 3.50 },
+                { nome: "Scoop de Whey Protein", preco: 6.00 }
+            ]
+        };
+
+        // 📋 3. CARDÁPIO DE PRODUTOS (Separado por Categorias)
+        // #anotações: Se "montavel: true", ao clicar abre a janela de escolher frutas/acompanhamentos.
+        // Se "montavel: false", adiciona direto ao carrinho (bom para bebidas ou combos fechados).
+        const CARDAPIO = [
+            {
+                categoria: "Copos (Monte o Seu)",
+                icone: "fa-spoon",
+                itens: [
+                    {
+                        id: "copo-300",
+                        nome: "Copo 300ml",
+                        descricao: "Ideal para matar a vontade! Escolha até 4 acompanhamentos grátis + 1 calda.",
+                        preco: 14.00,
+                        montavel: true,
+                        destaque: "Mais Vendido"
+                    },
+                    {
+                        id: "copo-400",
+                        nome: "Copo 400ml",
+                        descricao: "Na medida certa! Escolha até 4 acompanhamentos grátis + 1 calda.",
+                        preco: 17.00,
+                        montavel: true
+                    },
+                    {
+                        id: "copo-500",
+                        nome: "Copo 500ml",
+                        descricao: "Para quem ama açaí! Escolha até 4 acompanhamentos grátis + 1 calda.",
+                        preco: 20.00,
+                        montavel: true,
+                        destaque: "Custo-Benefício"
+                    },
+                    {
+                        id: "copo-700",
+                        nome: "Copo 700ml (Gigante)",
+                        descricao: "O monstro! Escolha até 4 acompanhamentos grátis + 1 calda.",
+                        preco: 25.00,
+                        montavel: true
+                    }
+                ]
+            },
+            {
+                categoria: "Barcas & Potes",
+                icone: "fa-ship",
+                itens: [
+                    {
+                        id: "barca-pequena",
+                        nome: "Barca Tradicional (500ml)",
+                        descricao: "Perfeita para dividir! Você escolhe os acompanhamentos e caldas.",
+                        preco: 28.00,
+                        montavel: true
+                    },
+                    {
+                        id: "barca-1litro",
+                        nome: "Super Barca 1 Litro",
+                        descricao: "Serve até 3 pessoas! Monte com seus acompanhamentos favoritos.",
+                        preco: 45.00,
+                        montavel: true,
+                        destaque: "Para Família"
+                    },
+                    {
+                        id: "pote-1litro",
+                        nome: "Pote Térmico 1 Litro (Puro)",
+                        descricao: "1 Litro do nosso açaí super cremoso puro para viagem.",
+                        preco: 36.00,
+                        montavel: false
+                    }
+                ]
+            },
+            {
+                categoria: "Combos Especiais Prontos",
+                icone: "fa-star",
+                itens: [
+                    {
+                        id: "combo-ninho-nutella",
+                        nome: "Copo 500ml Ninho Trufado com Nutella",
+                        descricao: "Já vem montado: Açaí, borda de Nutella original, camadas de Leite Ninho, Morango e Leite Condensado.",
+                        preco: 24.90,
+                        montavel: false,
+                        destaque: "Especial da Casa"
+                    },
+                    {
+                        id: "combo-casal",
+                        nome: "Combo Casal (2 Copos de 400ml)",
+                        descricao: "2 Copos de 400ml completos com Banana, Morango, Leite em Pó, Granola e Leite Condensado.",
+                        preco: 31.90,
+                        montavel: false
+                    }
+                ]
+            },
+            {
+                categoria: "Bebidas",
+                icone: "fa-bottle-water",
+                itens: [
+                    {
+                        id: "agua-sem-gas",
+                        nome: "Água Mineral sem Gás 500ml",
+                        descricao: "Gelada",
+                        preco: 3.50,
+                        montavel: false
+                    },
+                    {
+                        id: "agua-com-gas",
+                        nome: "Água Mineral com Gás 500ml",
+                        descricao: "Gelada",
+                        preco: 4.00,
+                        montavel: false
+                    }
+                ]
+            }
+        ];
+
+
+        /* ==========================================================
+         * 🧠 LÓGICA DE FUNCIONAMENTO DO SISTEMA (NÃO PRECISA EDITAR)
+         * ========================================================== */
+        let carrinho = [];
+        let produtoAtualModal = null;
+        let qtdModal = 1;
+
+        function formatarMoeda(valor) {
+            return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+
+        // Inicializa o Cardápio na Tela
+        function renderizarCatalogo() {
+            const navCategorias = document.getElementById('menu-categorias');
+            const mainCatalogo = document.getElementById('catalogo-produtos');
+            
+            navCategorias.innerHTML = '';
+            mainCatalogo.innerHTML = '';
+
+            CARDAPIO.forEach((secao, idx) => {
+                const idSecao = `secao-${idx}`;
+                
+                // Botão da Categoria no Topo
+                navCategorias.innerHTML += `
+                    <a href="#${idSecao}" class="whitespace-nowrap px-4 py-2 rounded-full text-xs sm:text-sm font-bold bg-[#3b123c] hover:bg-yellow-400 hover:text-purple-950 text-purple-100 border border-purple-700 transition flex items-center gap-2">
+                        <i class="fas ${secao.icone} text-yellow-400"></i> ${secao.categoria}
+                    </a>
+                `;
+
+                // Cards dos Produtos da Categoria
+                let htmlItens = '';
+                secao.itens.forEach(item => {
+                    const badge = item.destaque 
+                        ? `<span class="inline-block bg-yellow-400 text-purple-950 text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md mb-1">${item.destaque}</span>` 
+                        : '';
+
+                    htmlItens += `
+                        <div onclick="clicarProduto('${item.id}')" class="bg-[#2d0d2e] hover:bg-[#38113a] border border-purple-800/80 hover:border-yellow-400/60 rounded-2xl p-4 flex justify-between items-center gap-4 cursor-pointer shadow-lg transition group">
+                            <div class="flex-1 pr-2">
+                                ${badge}
+                                <h3 class="font-bold text-base sm:text-lg text-white group-hover:text-yellow-400 transition">${item.nome}</h3>
+                                <p class="text-xs sm:text-sm text-purple-200/80 line-clamp-2 mt-1">${item.descricao}</p>
+                                <div class="mt-3 flex items-center gap-2">
+                                    <span class="text-base sm:text-lg font-extrabold text-yellow-400">${formatarMoeda(item.preco)}</span>
+                                    ${item.montavel ? '<span class="text-[11px] bg-purple-900/90 text-purple-200 px-2 py-0.5 rounded-full">Personalizável</span>' : ''}
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col items-center justify-center">
+                                <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-[#3b123c] border border-purple-700 overflow-hidden flex items-center justify-center relative shadow-md">
+                                    <img src="Gemini_Generated_Image_3zuaej3zuaej3zua.jpg" onerror="this.onerror=null; this.src='logo.jpg';" class="w-full h-full object-cover scale-125 opacity-90 group-hover:scale-150 transition duration-300">
+                                    <div class="absolute bottom-1 right-1 bg-yellow-400 text-purple-950 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shadow">
+                                        <i class="fas fa-plus"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                mainCatalogo.innerHTML += `
+                    <section id="${idSecao}" class="scroll-mt-20">
+                        <h2 class="text-lg sm:text-xl font-extrabold text-yellow-400 mb-4 flex items-center gap-2 border-b border-purple-800 pb-2">
+                            <i class="fas ${secao.icone}"></i> ${secao.categoria}
+                        </h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            ${htmlItens}
+                        </div>
+                    </section>
+                `;
+            });
+        }
+
+        // Encontra um produto pelo ID e decide se abre o modal ou adiciona direto
+        function clicarProduto(idProduto) {
+            let encontrado = null;
+            for (const secao of CARDAPIO) {
+                const item = secao.itens.find(i => i.id === idProduto);
+                if (item) { encontrado = item; break; }
+            }
+            if (!encontrado) return;
+
+            if (encontrado.montavel) {
+                abrirModalMontar(encontrado);
+            } else {
+                carrinho.push({
+                    nome: encontrado.nome,
+                    quantidade: 1,
+                    detalhes: "Item pronto",
+                    precoUnitario: encontrado.preco,
+                    precoTotal: encontrado.preco
+                });
+                atualizarBarraCarrinho();
+                abrirModalCarrinho();
+            }
+        }
+
+        // Abre o Modal de Montar Açaí
+        function abrirModalMontar(produto) {
+            produtoAtualModal = produto;
+            qtdModal = 1;
+            document.getElementById('qtd-item-modal').innerText = qtdModal;
+            document.getElementById('modal-titulo-produto').innerText = produto.nome;
+            document.getElementById('modal-desc-produto').innerText = `Base: ${formatarMoeda(produto.preco)} • Escolha até ${OPCOES_PERSONALIZACAO.limiteGratis} grátis`;
+
+            const corpo = document.getElementById('corpo-modal-montar');
+            
+            // Monta lista de Frutas e Complementos Grátis
+            const todosGratis = [...OPCOES_PERSONALIZACAO.frutasGratis, ...OPCOES_PERSONALIZACAO.complementosGratis];
+            let htmlGratis = '';
+            todosGratis.forEach((item, idx) => {
+                htmlGratis += `
+                    <label class="flex items-center justify-between p-3 rounded-xl bg-[#3b123c]/60 border border-purple-800/80 cursor-pointer hover:border-yellow-400/50 transition">
+                        <span class="text-sm font-medium text-white">${item}</span>
+                        <input type="checkbox" class="check-gratis" value="${item}" onchange="verificarLimiteGratis(this)">
+                    </label>
+                `;
+            });
+
+            // Monta lista de Caldas
+            let htmlCaldas = '';
+            OPCOES_PERSONALIZACAO.caldasGratis.forEach((calda, idx) => {
+                htmlCaldas += `
+                    <label class="flex items-center justify-between p-3 rounded-xl bg-[#3b123c]/60 border border-purple-800/80 cursor-pointer hover:border-yellow-400/50 transition">
+                        <span class="text-sm font-medium text-white">${calda}</span>
+                        <input type="radio" name="calda-escolhida" value="${calda}" ${idx === 0 ? 'checked' : ''}>
+                    </label>
+                `;
+            });
+
+            // Monta lista de Adicionais Pagos
+            let htmlExtras = '';
+            OPCOES_PERSONALIZACAO.adicionaisPagos.forEach((extra, idx) => {
+                htmlExtras += `
+                    <label class="flex items-center justify-between p-3 rounded-xl bg-[#3b123c]/60 border border-purple-800/80 cursor-pointer hover:border-yellow-400/50 transition">
+                        <div>
+                            <span class="text-sm font-medium text-white block">${extra.nome}</span>
+                            <span class="text-xs font-bold text-yellow-400">+ ${formatarMoeda(extra.preco)}</span>
+                        </div>
+                        <input type="checkbox" class="check-extra" value="${extra.nome}" data-preco="${extra.preco}" onchange="recalcularTotalModal()">
+                    </label>
+                `;
+            });
+
+            corpo.innerHTML = `
+                <!-- 1. Acompanhamentos Grátis -->
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <h4 class="font-bold text-yellow-400 text-sm uppercase tracking-wide">1. Frutas & Complementos</h4>
+                        <span class="text-xs bg-purple-900 text-purple-200 px-2.5 py-1 rounded-full font-semibold" id="contador-gratis">0 / ${OPCOES_PERSONALIZACAO.limiteGratis}</span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        ${htmlGratis}
+                    </div>
+                </div>
+
+                <!-- 2. Caldas -->
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <h4 class="font-bold text-yellow-400 text-sm uppercase tracking-wide">2. Escolha 1 Calda (Grátis)</h4>
+                        <span class="text-xs bg-purple-900 text-purple-200 px-2.5 py-1 rounded-full">Obrigatório</span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        ${htmlCaldas}
+                        <label class="flex items-center justify-between p-3 rounded-xl bg-[#3b123c]/60 border border-purple-800/80 cursor-pointer">
+                            <span class="text-sm font-medium text-purple-300">Sem Calda</span>
+                            <input type="radio" name="calda-escolhida" value="Sem Calda">
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 3. Adicionais Extras -->
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <h4 class="font-bold text-yellow-400 text-sm uppercase tracking-wide">3. Turbinar Açaí (Extras)</h4>
+                        <span class="text-xs text-purple-300">Opcional</span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        ${htmlExtras}
+                    </div>
+                </div>
+
+                <!-- 4. Observações -->
+                <div>
+                    <label class="text-xs font-bold uppercase text-purple-300 block mb-1">Alguma observação?</label>
+                    <input type="text" id="obs-item-modal" placeholder="Ex: Mandar colher, caprichar no leite em pó..." class="w-full bg-[#1f0820] border border-purple-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-yellow-400">
+                </div>
+            `;
+
+            recalcularTotalModal();
+            const modal = document.getElementById('modal-montar');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function fecharModalMontar() {
+            const modal = document.getElementById('modal-montar');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // Controla o limite de acompanhamentos grátis
+        function verificarLimiteGratis(checkbox) {
+            const marcados = document.querySelectorAll('.check-gratis:checked');
+            if (marcados.length > OPCOES_PERSONALIZACAO.limiteGratis) {
+                checkbox.checked = false;
+                alert(`Você pode escolher no máximo ${OPCOES_PERSONALIZACAO.limiteGratis} acompanhamentos grátis!`);
+                return;
+            }
+            document.getElementById('contador-gratis').innerText = `${marcados.length} / ${OPCOES_PERSONALIZACAO.limiteGratis}`;
+        }
+
+        function alterarQtdModal(delta) {
+            if (qtdModal + delta >= 1) {
+                qtdModal += delta;
+                document.getElementById('qtd-item-modal').innerText = qtdModal;
+                recalcularTotalModal();
+            }
+        }
+
+        function recalcularTotalModal() {
+            if (!produtoAtualModal) return;
+            let unitario = produtoAtualModal.preco;
+            document.querySelectorAll('.check-extra:checked').forEach(cb => {
+                unitario += parseFloat(cb.dataset.preco);
+            });
+            const total = unitario * qtdModal;
+            document.getElementById('preco-modal-atual').innerText = formatarMoeda(total);
+        }
+
+        // Salva o Açaí montado no carrinho
+        function confirmarItemPersonalizado() {
+            let unitario = produtoAtualModal.preco;
+            const gratis = Array.from(document.querySelectorAll('.check-gratis:checked')).map(c => c.value);
+            const calda = document.querySelector('input[name="calda-escolhida"]:checked')?.value || 'Sem Calda';
+            const extras = [];
+
+            document.querySelectorAll('.check-extra:checked').forEach(cb => {
+                unitario += parseFloat(cb.dataset.preco);
+                extras.push(cb.value);
+            });
+
+            const obs = document.getElementById('obs-item-modal').value.trim();
+
+            let partesDetalhe = [];
+            if (gratis.length > 0) partesDetalhe.push(`Grátis: ${gratis.join(', ')}`);
+            partesDetalhe.push(`Calda: ${calda}`);
+            if (extras.length > 0) partesDetalhe.push(`Extras: ${extras.join(', ')}`);
+            if (obs !== '') partesDetalhe.push(`Obs: ${obs}`);
+
+            carrinho.push({
+                nome: produtoAtualModal.nome,
+                quantidade: qtdModal,
+                detalhes: partesDetalhe.join(' | '),
+                precoUnitario: unitario,
+                precoTotal: unitario * qtdModal
+            });
+
+            atualizarBarraCarrinho();
+            fecharModalMontar();
+        }
+
+        // Atualiza a barra amarela fixa lá embaixo
+        function atualizarBarraCarrinho() {
+            const totalItens = carrinho.reduce((acc, item) => acc + item.quantidade, 0);
+            const valorTotal = carrinho.reduce((acc, item) => acc + item.precoTotal, 0);
+
+            document.getElementById('qtd-carrinho').innerText = totalItens;
+            document.getElementById('total-barra-carrinho').innerText = formatarMoeda(valorTotal);
+            document.getElementById('total-modal-carrinho').innerText = formatarMoeda(valorTotal);
+        }
+
+        // Abre a gaveta do Carrinho para finalizar pedido
+        function abrirModalCarrinho() {
+            if (carrinho.length === 0) {
+                alert("Sua sacola ainda está vazia! Escolha um açaí delicioso primeiro.");
+                return;
+            }
+            renderizarItensCarrinho();
+            const modal = document.getElementById('modal-carrinho');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function fecharModalCarrinho() {
+            const modal = document.getElementById('modal-carrinho');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function renderizarItensCarrinho() {
+            const container = document.getElementById('lista-itens-carrinho');
+            container.innerHTML = '';
+
+            carrinho.forEach((item, index) => {
+                container.innerHTML += `
+                    <div class="bg-[#3b123c] border border-purple-700/70 rounded-xl p-3.5 flex justify-between items-start gap-3">
+                        <div class="flex-1">
+                            <div class="font-bold text-sm text-yellow-400">${item.quantidade}x ${item.nome}</div>
+                            <p class="text-xs text-purple-200 mt-1 leading-relaxed">${item.detalhes}</p>
+                            <div class="text-sm font-extrabold text-white mt-2">${formatarMoeda(item.precoTotal)}</div>
+                        </div>
+                        <button onclick="removerItemCarrinho(${index})" class="text-red-400 hover:text-red-300 p-1.5 text-sm" title="Remover item">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
+                `;
+            });
+        }
+
+        function removerItemCarrinho(index) {
+            carrinho.splice(index, 1);
+            atualizarBarraCarrinho();
+            if (carrinho.length === 0) {
+                fecharModalCarrinho();
+            } else {
+                renderizarItensCarrinho();
+            }
+        }
+
+        function alternarCampoEndereco() {
+            const tipo = document.getElementById('cliente-tipo-entrega').value;
+            const blocoEnd = document.getElementById('bloco-endereco');
+            blocoEnd.style.display = tipo.includes('Retirada') ? 'none' : 'block';
+        }
+
+        // Envia tudo formatado e bonito para o seu WhatsApp
+        function enviarPedidoWhatsApp() {
+            const nome = document.getElementById('cliente-nome').value.trim();
+            const tipoEntrega = document.getElementById('cliente-tipo-entrega').value;
+            const endereco = document.getElementById('cliente-endereco').value.trim();
+            const pagamento = document.getElementById('cliente-pagamento').value;
+
+            if (!nome) {
+                alert("Por favor, digite seu nome para identificarmos o pedido!");
+                document.getElementById('cliente-nome').focus();
+                return;
+            }
+
+            if (tipoEntrega.includes('Entrega') && !endereco) {
+                alert("Por favor, informe o endereço completo para a entrega!");
+                document.getElementById('cliente-endereco').focus();
+                return;
+            }
+
+            const valorTotal = carrinho.reduce((acc, item) => acc + item.precoTotal, 0);
+
+            let msg = `💜 *NOVO PEDIDO - AÇAÍ DO BOM* 💜\n`;
+            msg += `----------------------------------\n`;
+            msg += `👤 *Cliente:* ${nome}\n`;
+            msg += `🛵 *Modalidade:* ${tipoEntrega}\n`;
+            if (tipoEntrega.includes('Entrega')) {
+                msg += `📍 *Endereço:* ${endereco}\n`;
+            }
+            msg += `----------------------------------\n`;
+            msg += `🍨 *ITENS DO PEDIDO:*\n\n`;
+
+            carrinho.forEach((item, i) => {
+                msg += `*${item.quantidade}x ${item.nome}* (${formatarMoeda(item.precoTotal)})\n`;
+                msg += `   ↳ _${item.detalhes}_\n\n`;
+            });
+
+            msg += `----------------------------------\n`;
+            msg += `💳 *Pagamento:* ${pagamento}\n`;
+            msg += `💰 *TOTAL DO PEDIDO: ${formatarMoeda(valorTotal)}*`;
+
+            const url = `https://wa.me/${WHATSAPP_LOJA}?text=${encodeURIComponent(msg)}`;
+            window.open(url, '_blank');
+        }
+
+        // Inicia o site assim que carregar
+        document.addEventListener('DOMContentLoaded', renderizarCatalogo);
+    </script>
+</body>
+</html>
